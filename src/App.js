@@ -1,23 +1,18 @@
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+
+import Ship from './components/Ship'
+import Gameboard from './components/Gameboard'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="drag-and-drop">
+        <Ship health='5'></Ship>
+      </div>
+      <Gameboard size="50"/>
+      <p className="vs">VS</p>
+      <Gameboard size="50"/>
     </div>
   );
 }
