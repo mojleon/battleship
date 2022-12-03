@@ -23,12 +23,14 @@ export default class GameBoard extends React.Component {
   shipPlacementHover(event, id) {
     const addClass = event.nativeEvent.type === "mouseover" ? true : false;
 
-    if (this.props.horizontalPlacement) this.horizontalDomHover(id, addClass);
-    else this.verticalDomHover(id, addClass);
+    if (this.props.horizontalPlacement)
+      this.horizontalDomHover(event, id, addClass);
+    else this.verticalDomHover(event, id, addClass);
   }
 
-  horizontalDomHover(id, addClass) {
-    if (String(this.twoDecimalsNumber(id))[1] > 5) return;
+  horizontalDomHover(event, id, addClass) {
+    if (String(this.twoDecimalsNumber(id))[1] > 5)
+      return this.cannotPlace(event);
 
     for (let i = id; i < id + this.props.shipLength; i++) {
       if (addClass) {
@@ -43,8 +45,9 @@ export default class GameBoard extends React.Component {
     }
   }
 
-  verticalDomHover(id, addClass) {
-    if (String(this.twoDecimalsNumber(id))[0] > 5) return;
+  verticalDomHover(event, id, addClass) {
+    if (String(this.twoDecimalsNumber(id))[0] > 5)
+      return this.cannotPlace(event);
 
     for (let i = id; i < id + this.props.shipLength * 10; i += 10) {
       if (addClass) {
@@ -57,6 +60,10 @@ export default class GameBoard extends React.Component {
           .classList.remove("hover");
       }
     }
+  }
+
+  cannotPlace(event) {
+    event.target.classList.toggle("cannot-place");
   }
 
   render() {

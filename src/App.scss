@@ -36,6 +36,12 @@
         &.clicked {
           background-color: rgba(255, 0, 0, 0.5);
         }
+
+        &.cannot-place {
+          background: url("./assets/forbidden-image.svg");
+          background-repeat: no-repeat;
+          background-size: 100%;
+        }
       }
     }
   }
