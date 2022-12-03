@@ -1,20 +1,48 @@
-import React, { Component } from "react";
+import React from "react";
+import GameBoard from "./Gameboard";
 
-class GameSetup extends React.Component {
+class ShipSetup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedShip: null,
+      shipLength: [5, 4, 3, 3, 2],
+      horizontalPlacement: true,
+    };
+
+    this.shipPlaced = this.shipPlaced.bind(this);
+    this.toggleHorizontalPlacement = this.toggleHorizontalPlacement.bind(this);
   }
-  renter() {
+
+  toggleHorizontalPlacement() {
+    this.setState({
+      horizontalPlacement: !this.state.horizontalPlacement,
+    });
+    console.log(this.state.horizontalPlacement);
+  }
+
+  shipPlaced(e) {
+    console.log(e);
+  }
+
+  render() {
     return (
-      <div class="game-setup">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Et, ab
-        explicabo! Beatae a quam nihil, error sunt aut doloribus similique fuga
-        modi ducimus repellendus ea recusandae. Omnis commodi itaque
-        perspiciatis.
+      <div className="game-setup">
+        <GameBoard
+          shipLength={this.state.shipLength[0]}
+          gameSetup={true}
+          selectedShip={this.state.selectedShip}
+          shipPlaced={this.shipPlaced}
+          horizontalPlacement={this.state.horizontalPlacement}
+        />
+        <button onClick={this.toggleHorizontalPlacement}>
+          {this.state.horizontalPlacement
+            ? "HORIZONTAL PLACEMENT"
+            : "VERTICAL PLACEMENT"}
+        </button>
       </div>
     );
   }
 }
 
-export default GameSetup;
+export default ShipSetup;

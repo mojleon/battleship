@@ -29,7 +29,8 @@
         border: 1px solid #bbb;
         box-sizing: border-box;
 
-        &:hover {
+        &:hover,
+        &.hover {
           background-color: red;
         }
         &.clicked {

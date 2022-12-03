@@ -18,6 +18,11 @@ class App extends React.Component {
     };
 
     this.gameBoardClick = this.gameBoardClick.bind(this);
+    this.stateChange = this.stateChange.bind(this);
+  }
+
+  stateChange(key, value) {
+    this.setState({ key, value });
   }
 
   gameBoardClick(id) {
@@ -43,11 +48,10 @@ class App extends React.Component {
   }
 
   render() {
-    let { GameSetup } = this.state.GameSetup;
-
+    let GameSetup = this.state.GameSetup;
     const game = () => {
       if (GameSetup) {
-        return <ShipSetup />;
+        return <ShipSetup stateCh />;
       } else {
         return (
           <div>
