@@ -10,7 +10,7 @@ class ShipSetup extends React.Component {
       horizontalPlacement: true,
     };
 
-    this.shipPlaced = this.shipPlaced.bind(this);
+    this.placeShip = this.placeShip.bind(this);
     this.toggleHorizontalPlacement = this.toggleHorizontalPlacement.bind(this);
   }
 
@@ -18,11 +18,28 @@ class ShipSetup extends React.Component {
     this.setState({
       horizontalPlacement: !this.state.horizontalPlacement,
     });
-    console.log(this.state.horizontalPlacement);
   }
 
-  shipPlaced(e) {
-    console.log(e);
+  updatePlayerfield(elIds) {
+    this.props.gameBoardClick(elIds);
+  }
+
+  placeShip() {
+    this.setState({
+      shipLength: this.state.shipLength.slice(1),
+    });
+
+    if (this.state.shipLength.length <= 1) {
+      this.props.startGame();
+    }
+
+    let elIds = [];
+    document.querySelectorAll(".hover:not(.clicked)").forEach((el) => {
+      el.classList.add("clicked");
+      elIds.push(el.id);
+    });
+
+    this.updatePlayerfield(elIds);
   }
 
   render() {
@@ -32,7 +49,7 @@ class ShipSetup extends React.Component {
           shipLength={this.state.shipLength[0]}
           gameSetup={true}
           selectedShip={this.state.selectedShip}
-          shipPlaced={this.shipPlaced}
+          placeShip={this.placeShip}
           horizontalPlacement={this.state.horizontalPlacement}
         />
         <button onClick={this.toggleHorizontalPlacement}>

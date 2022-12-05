@@ -82,8 +82,8 @@ export default class GameBoard extends React.Component {
             <div
               onMouseLeave={(event) => this.shipPlacementHover(event, i)}
               onMouseOver={(event) => this.shipPlacementHover(event, i)}
-              onClick={() => {
-                this.clicked();
+              onClick={(event) => {
+                this.clicked(event);
               }}
               key={i}
               id={
