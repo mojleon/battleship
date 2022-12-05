@@ -13,7 +13,7 @@ export default class GameBoard extends React.Component {
   }
 
   async clicked(e) {
-    if (this.state.gameSetup) return this.props.shipPlaced();
+    if (this.props.gameSetup) return this.props.placeShip(e);
     if (e.target.classList.contains("clicked")) return;
 
     this.props.gameBoardClick(e.target.id);
@@ -28,9 +28,16 @@ export default class GameBoard extends React.Component {
     else this.verticalDomHover(event, id, addClass);
   }
 
-  horizontalDomHover(event, id, addClass) {
-    if (String(this.twoDecimalsNumber(id))[1] > 5)
+  checkIfSafeToPlace(event, id, addClass) {
+    if (String(this.twoDecimalsNumber(id))[1] > 10 - this.props.shipLength) {
       return this.cannotPlace(event);
+    }
+  }
+
+  horizontalDomHover(event, id, addClass) {
+    const safeToPlace = this.checkIfSafeToPlace(event, id, addClass);
+
+    if (safeToPlace === false) return;
 
     for (let i = id; i < id + this.props.shipLength; i++) {
       if (addClass) {
@@ -46,7 +53,7 @@ export default class GameBoard extends React.Component {
   }
 
   verticalDomHover(event, id, addClass) {
-    if (String(this.twoDecimalsNumber(id))[0] > 5)
+    if (String(this.twoDecimalsNumber(id))[0] > 10 - this.props.shipLength)
       return this.cannotPlace(event);
 
     for (let i = id; i < id + this.props.shipLength * 10; i += 10) {
@@ -64,6 +71,7 @@ export default class GameBoard extends React.Component {
 
   cannotPlace(event) {
     event.target.classList.toggle("cannot-place");
+    return false;
   }
 
   render() {
@@ -74,7 +82,9 @@ export default class GameBoard extends React.Component {
             <div
               onMouseLeave={(event) => this.shipPlacementHover(event, i)}
               onMouseOver={(event) => this.shipPlacementHover(event, i)}
-              onClick={this.clicked.bind(this)}
+              onClick={() => {
+                this.clicked();
+              }}
               key={i}
               id={
                 (this.props.gameSetup
