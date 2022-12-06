@@ -63,23 +63,12 @@ class App extends React.Component {
   }
 
   placeVerticalShip(ship) {
-    let array = ["", "", "", "", "", "", "", "", "", ""];
+    let array = this.state.playerField;
+    for(let i = Number(ship[0][2]); i <= ship.length - 1; i++) {
+      array[Number(ship[i][2])][Number(ship[i][3])] = 's'; 
+    }
 
-    ship.map((part) => {
-      array[Number(part[2])] = "s";
-    });
-
-    this.setState(
-      update(this.state, {
-        playerField: {
-          [ship[0][2]]: {
-            $set: array,
-          },
-        },
-      })
-    );
-
-    console.log(this.state.playerField);
+    this.setState({ playerField: [...this.state.playerField, array]});
   }
 
   placeHorizontalShip(ship) {
@@ -147,6 +136,7 @@ class App extends React.Component {
               gameBoardClick={this.gameBoardClick}
               player={true}
               playerturn={this.state.playerTurn}
+              playerField={this.state.playerField}
             />
             <p className="vs">VS</p>
             <Gameboard

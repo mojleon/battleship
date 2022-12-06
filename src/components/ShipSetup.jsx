@@ -29,10 +29,6 @@ class ShipSetup extends React.Component {
       shipLength: this.state.shipLength.slice(1),
     });
 
-    if (this.state.shipLength.length <= 1) {
-      this.props.startGame();
-    }
-
     let elIds = [];
     document.querySelectorAll(".hover:not(.clicked)").forEach((el) => {
       el.classList.add("clicked");
@@ -40,6 +36,11 @@ class ShipSetup extends React.Component {
     });
 
     this.updatePlayerfield(elIds);
+
+    console.log(this.state.shipLength.length)
+    if (this.state.shipLength.length === 0) {
+      this.props.startGame();
+    }
   }
 
   render() {
