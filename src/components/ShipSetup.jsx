@@ -20,25 +20,17 @@ class ShipSetup extends React.Component {
     });
   }
 
-  updatePlayerfield(elIds) {
-    this.props.gameBoardClick(elIds);
-  }
-
   placeShip() {
     this.setState({
       shipLength: this.state.shipLength.slice(1),
     });
 
-    let elIds = [];
     document.querySelectorAll(".hover:not(.clicked)").forEach((el) => {
       el.classList.add("clicked");
-      elIds.push(el.id);
+      this.props.gameBoardClick(el.id);
     });
 
-    this.updatePlayerfield(elIds);
-
-    console.log(this.state.shipLength.length)
-    if (this.state.shipLength.length === 0) {
+    if (this.state.shipLength.length === 1) {
       this.props.startGame();
     }
   }

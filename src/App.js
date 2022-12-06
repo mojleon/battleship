@@ -57,34 +57,12 @@ class App extends React.Component {
     this.setState({ key, value });
   }
 
-  placeShip(ship) {
-    if (ship[0][3] === ship[1][3]) this.placeVerticalShip(ship);
-    else this.placeHorizontalShip(ship);
-  }
-
-  placeVerticalShip(ship) {
-    let array = this.state.playerField;
-    for(let i = Number(ship[0][2]); i <= ship.length - 1; i++) {
-      array[Number(ship[i][2])][Number(ship[i][3])] = 's'; 
-    }
-
-    this.setState({ playerField: [...this.state.playerField, array]});
-  }
-
-  placeHorizontalShip(ship) {
-    let array = ["", "", "", "", "", "", "", "", "", ""];
-
-    ship.map((part) => {
-      array[Number(part[3])] = "s";
-    });
-
-    this.setState(
-      update(this.state, {
-        playerField: {
-          [ship[0][2]]: {
-            $set: array,
-          },
-        },
+  placeShip(id) {
+    const row = id[2];
+    const column = id[3];
+    this.setState((prevstate) =>
+      update(prevstate, {
+        playerField: { [row]: { [column]: { $set: "s" } } },
       })
     );
   }
@@ -92,8 +70,8 @@ class App extends React.Component {
   gameBoardClick(id) {
     if (id === undefined) return;
 
-    if (typeof id === "object") {
-      this.placeShip(id);
+    if (this.state.GameSetup === true) {
+      return this.placeShip(id);
     }
     if (id.includes("p")) {
       console.log("player");
