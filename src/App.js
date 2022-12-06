@@ -57,14 +57,49 @@ class App extends React.Component {
     this.setState({ key, value });
   }
 
+  placeShipField(row, column) {
+    const leftSide = column - 1;
+    const rightSide = column + 1;
+    const upSide = row - 1;
+    const downSide = row + 1;
+
+    const setFieldsBy = {
+      0: { row: upSide, column: leftSide },
+      1: { row: upSide, column: column },
+      2: { row: upSide, column: rightSide },
+      3: { row: row, column: leftSide },
+      4: { row: row, column: rightSide },
+      5: { row: downSide, column: leftSide },
+      6: { row: downSide, column: column },
+      7: { row: downSide, column: rightSide },
+    };
+
+    for (let i = 0; i < 8; i++) {
+      const r = setFieldsBy[i].row;
+      const c = setFieldsBy[i].column;
+
+      if (this.state.playerField[r][c] === "s") continue;
+
+      this.setState((prevstate) =>
+        update(prevstate, {
+          playerField: { [r]: { [c]: { $set: "f" } } },
+        })
+      );
+    }
+
+    console.log(this.state.playerField);
+  }
+
   placeShip(id) {
-    const row = id[2];
-    const column = id[3];
+    const row = Number(id[2]);
+    const column = Number(id[3]);
     this.setState((prevstate) =>
       update(prevstate, {
         playerField: { [row]: { [column]: { $set: "s" } } },
       })
     );
+
+    this.placeShipField(row, column);
   }
 
   gameBoardClick(id) {
