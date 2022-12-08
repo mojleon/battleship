@@ -19,15 +19,28 @@ class ShipSetup extends React.Component {
       horizontalPlacement: !this.state.horizontalPlacement,
     });
   }
+  
+  checkIfSafeToPlaceShip(e) {
+    const row = e.id[2]
+    const column = e.id[3];
+    if (this.props.field[row][column] === 'f' || this.props.field[row][column] === 's') return false;
+  }
+  
+  placeShip(e) {
+    const domHovers = document.querySelectorAll(".hover:not(.clicked)");
+    let notSafeToPlaceShip = false;
+    domHovers.forEach((el) => {
+      if(this.checkIfSafeToPlaceShip(el) === false) notSafeToPlaceShip = true;
+    })
 
-  placeShip() {
+    if(notSafeToPlaceShip === true) return;
+
+    domHovers.forEach((el) => {
+      this.props.gameBoardClick(el.id);
+    })
+
     this.setState({
       shipLength: this.state.shipLength.slice(1),
-    });
-
-    document.querySelectorAll(".hover:not(.clicked)").forEach((el) => {
-      el.classList.add("clicked");
-      this.props.gameBoardClick(el.id);
     });
 
     if (this.state.shipLength.length === 1) {
@@ -44,6 +57,7 @@ class ShipSetup extends React.Component {
           selectedShip={this.state.selectedShip}
           placeShip={this.placeShip}
           horizontalPlacement={this.state.horizontalPlacement}
+          field={this.props.field}
         />
         <button onClick={this.toggleHorizontalPlacement}>
           {this.state.horizontalPlacement
