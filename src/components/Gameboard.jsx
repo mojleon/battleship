@@ -12,21 +12,32 @@ export default class GameBoard extends React.Component {
     return number < 10 ? "0" + number : number;
   }
 
-
   checkIfSafeToPlaceShip(row, column) {
     const suroundingArea = this.getSuroundingArea(row, column);
-    for(var key in suroundingArea) {
-      if(suroundingArea[key].row === null || suroundingArea[key].column === null ) continue;
+    for (var key in suroundingArea) {
+      if (
+        suroundingArea[key].row === null ||
+        suroundingArea[key].column === null
+      )
+        continue;
 
-      if (this.state.playerField[row][column] === 'f' || this.state.playerField[row][column] === 's') return false;
+      if (
+        this.state.playerField[row][column] === "f" ||
+        this.state.playerField[row][column] === "s"
+      )
+        return false;
     }
   }
 
   async clicked(e) {
     if (this.props.gameSetup) {
-      const row = e.target.id[2]
+      const row = e.target.id[2];
       const column = e.target.id[3];
-      if (this.props.field[row][column] === 'f' || this.props.field[row][column] === 's') return false;
+      if (
+        this.props.field[row][column] === "f" ||
+        this.props.field[row][column] === "s"
+      )
+        return false;
       return this.props.placeShip(e);
     }
     if (e.target.classList.contains("clicked")) return;
@@ -90,10 +101,15 @@ export default class GameBoard extends React.Component {
   }
 
   setupShip(i) {
-    const row = String(this.twoDecimalsNumber(i))[0]
-    const column = String(this.twoDecimalsNumber(i))[1]
-    if(this.props.field[row] === undefined) return false;
-    return this.props.field[row][column] === 's' ? true : false
+    const row = String(this.twoDecimalsNumber(i))[0];
+    const column = String(this.twoDecimalsNumber(i))[1];
+    if (
+      this.props.field === undefined ||
+      this.props.field[row] === undefined ||
+      this.props.field[row][column] === undefined
+    )
+      return false;
+    return this.props.field[row][column] === "s" ? true : false;
   }
 
   render() {
@@ -108,7 +124,7 @@ export default class GameBoard extends React.Component {
                 this.clicked(event);
               }}
               key={i}
-              className={this.setupShip(i) ? 'clicked' : ''}
+              className={this.setupShip(i) ? "clicked" : ""}
               id={
                 (this.props.gameSetup
                   ? "s-"

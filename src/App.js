@@ -57,13 +57,13 @@ class App extends React.Component {
     this.setState({ key, value });
   }
 
-  getSuroundingArea(row, column) {
+  placeShipField(row, column) {
     const leftSide = column - 1 < 0 ? null : column - 1;
     const rightSide = column + 1 > 9 ? null : column + 1;
     const upSide = row - 1 < 0 ? null : row - 1;
     const downSide = row + 1 > 9 ? null : row + 1;
 
-    return {
+    const setFieldsBy = {
       0: { row: upSide, column: leftSide },
       1: { row: upSide, column: column },
       2: { row: upSide, column: rightSide },
@@ -74,10 +74,6 @@ class App extends React.Component {
       7: { row: downSide, column: column },
       8: { row: downSide, column: rightSide },
     };
-  }
-
-  placeShipField(row, column) {
-    const setFieldsBy = this.getSuroundingArea(row, column);
 
     for (let i = 0; i <= 8; i++) {
       const r = setFieldsBy[i].row;
@@ -96,20 +92,9 @@ class App extends React.Component {
     }
   }
 
-  checkIfSafeToPlaceShip(row, column) {
-    const suroundingArea = this.getSuroundingArea(row, column);
-    for(var key in suroundingArea) {
-      if(suroundingArea[key].row === null || suroundingArea[key].column === null ) continue;
-
-      if (this.state.playerField[row][column] === 'f' || this.state.playerField[row][column] === 's') return false;
-    }
-  }
-
   async placeShip(id) {
     const row = Number(id[2]);
     const column = Number(id[3]);
-
-    if(this.checkIfSafeToPlaceShip(row, column) === false) return;
     await this.placeShipField(row, column);
 
     this.setState((prevstate) =>
@@ -172,7 +157,6 @@ class App extends React.Component {
             <Gameboard
               gameBoardClick={this.gameBoardClick}
               playerturn={this.state.playerTurn}
-              field={this.state.enemyField}
             />
           </div>
         );
