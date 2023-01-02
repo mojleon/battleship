@@ -22,9 +22,9 @@ class ShipSetup extends React.Component {
   getPlacementCoordinates(length) {
     const horizontalPlacement = Math.random() >= 0.5;
 
-    // Generate a random number between 0 and 5 inclusive
-    const row = Math.floor(Math.random() * 6);
-    const column = Math.floor(Math.random() * 6);
+    // Generate a random number between 0 and 5 or 9 depending on the horizontalPlacement inclusive
+    const row = horizontalPlacement ? Math.floor(Math.random() * (9 - length)) : Math.floor(Math.random() * 9);
+    const column = horizontalPlacement ? Math.floor(Math.random() * 9) : Math.floor(Math.random() * (9 - length));
 
     // Initialize the ship array
     const ship = [];
